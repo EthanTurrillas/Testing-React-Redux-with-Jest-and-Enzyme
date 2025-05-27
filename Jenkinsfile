@@ -3,28 +3,33 @@ pipeline {
 
     stages {
         stage('Checkout') {
+            when {
+                branch pattern: "feature.*", comparator: "REGEXP"
+            }
             steps {
                 checkout scm
             }
         }
-        
+
         stage('Build') {
+            when {
+                branch pattern: "feature.*", comparator: "REGEXP"
+            }
             steps {
-                echo 'Building the project...'
+                echo 'Building project...'
                 sh 'npm install'
-                sh 'npm run build'  
+                sh 'npm run build'
             }
         }
 
         stage('Testing') {
+            when {
+                branch pattern: "feature.*", comparator: "REGEXP"
+            }
             steps {
                 echo 'Running tests...'
-                sh 'npm test -- --coverage --watchAll=false' 
+                sh 'npm test -- --coverage --watchAll=false'
             }
         }
-    }
-
-    when {
-        branch pattern: "feature.*", comparator: "REGEXP"
     }
 }
